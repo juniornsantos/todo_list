@@ -7,3 +7,5 @@ class SqliteMigrationFactory {
       ];
   List<Migration> getUpgradeMigration(int version) => [];
 }
+
+// add um comentario para testar
