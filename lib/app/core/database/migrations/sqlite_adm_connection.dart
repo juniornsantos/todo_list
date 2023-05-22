@@ -18,3 +18,6 @@ class SqliteAdmConnection with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
   }
 }
+
+
+// Rever a aula 09
