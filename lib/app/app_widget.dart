@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list/app/core/database/migrations/sqlite_adm_connection.dart';
 import 'package:todo_list/app/core/database/sqlite_connection_factory.dart';
+import 'package:todo_list/app/modules/auth/login/login_controller.dart';
+import 'package:todo_list/app/modules/auth/login/login_page.dart';
 import 'package:todo_list/app/modules/splash/splash_page.dart';
 
 class AppWidget extends StatefulWidget {
@@ -27,8 +30,16 @@ class _AppWidgetState extends State<AppWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Todo List Provider',
+      routes: {
+        '/login': (_) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider(create: (_) => LoginController()),
+              ],
+              child: LoginPage(),
+            ),
+      },
       home: SplashPage(),
     );
   }
