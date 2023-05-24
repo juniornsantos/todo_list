@@ -25,7 +25,6 @@ class _AppWidgetState extends State<AppWidget> {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(sqliteAdmConnection);
-
     super.dispose();
   }
 
