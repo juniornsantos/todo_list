@@ -25,7 +25,48 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    TodoListLogo()
+                    TodoListLogo(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 20,
+                      ),
+                      child: Form(
+                        child: Column(
+                          children: [
+                            TextFormField(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text('Esqueceu sua senha?'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text('Login'),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
