@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
-                            TodoListField(label: 'Senha'),
+                            TodoListField(label: 'Senha', obscureText: true),
                             SizedBox(
                               height: 10,
                             ),
