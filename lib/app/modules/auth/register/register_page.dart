@@ -44,9 +44,9 @@ class RegisterPage extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.width * .5,
-            child: FittedBox(
-              child: TodoListLogo(),
+            child: const FittedBox(
               fit: BoxFit.fitHeight,
+              child: TodoListLogo(),
             ),
           ),
           Padding(
@@ -70,14 +70,14 @@ class RegisterPage extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text('Salvar'),
-                      ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Salvar'),
                       ),
                     ),
                   )
