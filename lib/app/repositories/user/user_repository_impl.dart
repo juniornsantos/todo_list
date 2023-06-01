@@ -19,6 +19,8 @@ class UserRepositoryImpl implements UserRepository {
       print(e);
       print(s);
       //email-already-exists
+      var retorno = e.code;
+      print('O retorno foi $retorno');
       if (e.code == 'email-already-in-use') {
         final loginTypes =
             await _firebaseAuth.fetchSignInMethodsForEmail(email);
