@@ -1,5 +1,5 @@
 class AuthException implements Exception {
-  String message;
+  final String message;
   AuthException({
     required this.message,
   });
