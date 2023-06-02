@@ -130,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _confirmPasswordEC,
                     validator: Validatorless.multiple(
                       [
-                        Validatorless.required('COnfirma senha obrigatoria'),
+                        Validatorless.required('Confirma senha obrigatoria'),
                         Validators.compare(
                             _passwordEC, 'Senha diferente de confirma senha')
                       ],
