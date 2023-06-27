@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/app/core/notifier/default_change_notifier.dart';
 import 'package:todo_list/app/exception/auth_exception.dart';
 import 'package:todo_list/app/services/user/user_service.dart';
 
-class RegisterController extends ChangeNotifier {
-  final UserService _userService;
-  String? error;
-  bool success = false;
-
+class RegisterController extends DefaultChangeNotifier {
   RegisterController({required UserService userService})
       : _userService = userService;
 
   Future<void> registerUser(String email, String password) async {
     try {
-      error = null;
-      success = false;
+      showLoadingAndResetState();
+
       notifyListeners();
 
       final user = await _userService.register(email, password);
       if (user != null) {
         // sucesso
-        success = true;
+        success();
       } else {
         // erro
-        error = 'Erro ao registrar usuário';
+        setError('Erro ao registrar usuário');
       }
     } on AuthException catch (e) {
-      error = e.message;
+      setError(e.message);
     } finally {
+      hideLoading();
       notifyListeners();
     }
   }

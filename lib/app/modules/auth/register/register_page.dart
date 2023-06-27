@@ -172,5 +172,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
+// aula 200 - tempo 18:00
 
-// aula 199 - tempo 17:00
+
+// list vamos aprender autoliso em 2023
