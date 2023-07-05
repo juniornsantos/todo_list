@@ -26,7 +26,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailEC.dispose();
     _passwordEC.dispose();
     _confirmPasswordEC.dispose();
-    context.read<RegisterController>().removeListener(() {});
     super.dispose();
   }
 
@@ -35,7 +34,17 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
     final defaultListener = DefaultListenerNotifier(
         changeNotifier: context.read<RegisterController>());
-    defaultListener.listener(context: context);
+    defaultListener.listener(
+      context: context,
+      successCallback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
+        Navigator.of(context).pop();
+      },
+      // Esse atributo é opcional
+      // errorCallback: (notifier, listenerInstance) {
+      //   print('Deu ruim!');
+      // },
+    );
     // context.read<RegisterController>().addListener(() {
     //   final controller = context.read<RegisterController>();
     //   var success = controller.success;
