@@ -10,7 +10,6 @@ class RegisterController extends DefaultChangeNotifier {
   Future<void> registerUser(String email, String password) async {
     try {
       showLoadingAndResetState();
-
       notifyListeners();
 
       final user = await _userService.register(email, password);
