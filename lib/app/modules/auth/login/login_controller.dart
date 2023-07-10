@@ -26,6 +26,10 @@ class LoginController extends DefaultChangeNotifier {
       notifyListeners();
     }
   }
+
+  void forgotPassword(String text) {
+    showLoadingAndResetState();
+  }
 }
 
 // Aula 201 tempo 5:00 

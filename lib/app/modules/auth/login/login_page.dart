@@ -3,6 +3,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/app/core/notifier/default_listener_notifier.dart';
+import 'package:todo_list/app/core/ui/messages.dart';
 import 'package:todo_list/app/core/widget/todo_list_field.dart';
 import 'package:todo_list/app/core/widget/todo_list_logo.dart';
 import 'package:todo_list/app/modules/auth/login/login_controller.dart';
@@ -21,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
+  final _emailFocus = FocusNode();
 
   @override
   void initState() {
@@ -66,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                             TodoListField(
                               label: 'E-mail',
                               controller: _emailEC,
+                              focusNode: _emailFocus,
                               validator: Validatorless.multiple(
                                 [
                                   Validatorless.required('E-mail obrigatório'),
@@ -95,7 +98,18 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (_emailEC.text.isNotEmpty) {
+                                      //recuperar senha
+                                      context
+                                          .read<LoginController>()
+                                          .forgotPassword(_emailEC.text);
+                                    } else {
+                                      _emailFocus.requestFocus();
+                                      Messages.of(context).showError(
+                                          'Digite um e-mail para recuperar a senha');
+                                    }
+                                  },
                                   child: Text('Esqueceu sua senha?'),
                                 ),
                                 ElevatedButton(
