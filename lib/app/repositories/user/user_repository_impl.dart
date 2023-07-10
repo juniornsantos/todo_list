@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_list/app/exception/auth_exception.dart';
 
 import './user_repository.dart';
@@ -84,6 +85,32 @@ class UserRepositoryImpl implements UserRepository {
       print(e);
       print(s);
       throw AuthException(message: 'Erro ao resetar senha');
+    }
+  }
+
+  @override
+  Future<User?> googleLogin() async {
+    final googleSignIn = GoogleSignIn();
+    final googleUser = await googleSignIn.signIn();
+    if (googleUser != null) {
+      final loginMethods =
+          await _firebaseAuth.fetchSignInMethodsForEmail(googleUser.email);
+
+      if (loginMethods.contains('password')) {
+        throw AuthException(
+          message:
+              'Voce Utilizou o e-mail para cadastro no TodoList, \nCaso tenha esquecido sua senha por faor clique em Esqueci minha senha',
+        );
+      } else {
+        final googleAuth = await googleUser.authentication;
+        final firebaseCredencial = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final UserCredential =
+            await _firebaseAuth.signInWithCredential(firebaseCredencial);
+        return UserCredential.user;
+      }
     }
   }
 }
