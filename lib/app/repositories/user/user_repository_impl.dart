@@ -90,26 +90,40 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<User?> googleLogin() async {
-    final googleSignIn = GoogleSignIn();
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser != null) {
-      final loginMethods =
-          await _firebaseAuth.fetchSignInMethodsForEmail(googleUser.email);
+    List<String>? loginMethods;
+    try {
+      final googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        loginMethods =
+            await _firebaseAuth.fetchSignInMethodsForEmail(googleUser.email);
 
-      if (loginMethods.contains('password')) {
-        throw AuthException(
-          message:
-              'Voce Utilizou o e-mail para cadastro no TodoList, \nCaso tenha esquecido sua senha por faor clique em Esqueci minha senha',
-        );
+        if (loginMethods.contains('password')) {
+          throw AuthException(
+            message:
+                'Voce Utilizou o e-mail para cadastro no TodoList, \nCaso tenha esquecido sua senha por favor clique em Esqueci minha senha',
+          );
+        } else {
+          final googleAuth = await googleUser.authentication;
+          final firebaseCredencial = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken,
+            idToken: googleAuth.idToken,
+          );
+          var UserCredential =
+              await _firebaseAuth.signInWithCredential(firebaseCredencial);
+          return UserCredential.user;
+        }
+      }
+    } on FirebaseAuthException catch (e, s) {
+      print(e);
+      print(s);
+      if (e.code == 'account-exists-with-different-credential') {
+        throw AuthException(message: '''
+            Login inválido, você se registrou no TodoLista com os seguintes
+              ${loginMethods?.join(',')}
+        ''');
       } else {
-        final googleAuth = await googleUser.authentication;
-        final firebaseCredencial = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        final UserCredential =
-            await _firebaseAuth.signInWithCredential(firebaseCredencial);
-        return UserCredential.user;
+        throw AuthException(message: 'Erro ao realizar login');
       }
     }
   }
