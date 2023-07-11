@@ -100,18 +100,16 @@ class UserRepositoryImpl implements UserRepository {
 
         if (loginMethods.contains('password')) {
           throw AuthException(
-            message:
-                'Voce Utilizou o e-mail para cadastro no TodoList, \nCaso tenha esquecido sua senha por favor clique em Esqueci minha senha',
-          );
+              message:
+                  'Você utilizou o e-mail para cadastro bi TodoList, caso tenha esquecido sua senha por favor clique no link esqueci minha senha.');
         } else {
           final googleAuth = await googleUser.authentication;
           final firebaseCredencial = GoogleAuthProvider.credential(
-            accessToken: googleAuth.accessToken,
-            idToken: googleAuth.idToken,
-          );
-          var UserCredential =
+              accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+          var userCredencial =
               await _firebaseAuth.signInWithCredential(firebaseCredencial);
-          return UserCredential.user;
+
+          return userCredencial.user;
         }
       }
     } on FirebaseAuthException catch (e, s) {
@@ -119,12 +117,18 @@ class UserRepositoryImpl implements UserRepository {
       print(s);
       if (e.code == 'account-exists-with-different-credential') {
         throw AuthException(message: '''
-            Login inválido, você se registrou no TodoLista com os seguintes
-              ${loginMethods?.join(',')}
+        Login inválido, você se registrou no TodoList com os seguintes provedores: 
+          ${loginMethods?.join(',')}
         ''');
       } else {
-        throw AuthException(message: 'Erro ao realizar login');
+        throw AuthException(message: 'Erro ao realizar login.');
       }
     }
+  }
+
+  @override
+  Future<void> googleLogout() async {
+    await GoogleSignIn().signOut();
+    _firebaseAuth.signOut();
   }
 }
