@@ -5,6 +5,7 @@ import 'package:todo_list/app/core/auth/auth_provider.dart';
 import 'package:todo_list/app/core/ui/theme_extensions.dart';
 import 'package:todo_list/app/core/ui/todo_list_icons.dart';
 import 'package:todo_list/app/modules/home/widget/home_drawer.dart';
+import 'package:todo_list/app/modules/home/widget/home_header.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -41,7 +42,7 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('TEXTO'),
+                      HomeHeader(),
                     ],
                   ),
                 ),
