@@ -9,9 +9,22 @@ import 'package:todo_list/app/modules/home/widget/home_filters.dart';
 import 'package:todo_list/app/modules/home/widget/home_header.dart';
 import 'package:todo_list/app/modules/home/widget/home_taskes.dart';
 import 'package:todo_list/app/modules/home/widget/home_week_filter.dart';
+import 'package:todo_list/app/modules/tasks/task_create_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  void goToCreateTask(BuildContext context) {
+    // navegação e trasição
+    // Navigator.of(context).pushNamed('/task/create');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => TaskCreatePage(
+          controller: context.read(),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +44,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: context.primaryColor,
-        onPressed: () {},
+        onPressed: () => goToCreateTask(context),
         child: Icon(Icons.add),
       ),
       backgroundColor: Color(0XFFFAFBFE),
