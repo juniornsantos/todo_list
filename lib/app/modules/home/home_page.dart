@@ -10,6 +10,7 @@ import 'package:todo_list/app/modules/home/widget/home_header.dart';
 import 'package:todo_list/app/modules/home/widget/home_taskes.dart';
 import 'package:todo_list/app/modules/home/widget/home_week_filter.dart';
 import 'package:todo_list/app/modules/tasks/task_create_page.dart';
+import 'package:todo_list/app/modules/tasks/tasks_module.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,11 +19,26 @@ class HomePage extends StatelessWidget {
     // navegação e trasição
     // Navigator.of(context).pushNamed('/task/create');
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => TaskCreatePage(
-          controller: context.read(),
-        ),
+      PageRouteBuilder(
+        transitionDuration: Duration(microseconds: 400),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          animation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInQuad,
+          );
+          return ScaleTransition(
+            scale: animation,
+            alignment: Alignment.bottomRight,
+            child: child,
+          );
+        },
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return TasksModule().getPage('/task/create', context);
+        },
       ),
+      // MaterialPageRoute(
+      //   builder: (_) => TasksModule().getPage('/task/create', context),
+      // ),
     );
   }
 
